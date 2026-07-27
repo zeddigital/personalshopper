@@ -68,6 +68,12 @@ a{color:inherit;text-decoration:none}
 /* ---------- header ---------- */
 header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px var(--bleed-pad);transition:background .5s var(--ease),padding .5s var(--ease),box-shadow .5s var(--ease)}
 header.scrolled{background:rgba(245,245,243,.9);backdrop-filter:blur(12px);padding:16px var(--bleed-pad);box-shadow:0 1px 0 var(--line)}
+/* the home hero runs photography directly under the nav — this keeps the dark
+   nav legible over it without giving the unscrolled header a hard edge. It
+   fades out entirely before the subject's head, and is invisible on the light
+   interior pages (paper over paper). */
+header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,rgba(245,245,243,.94),rgba(245,245,243,.72) 55%,rgba(245,245,243,0));transition:opacity .5s var(--ease)}
+header.scrolled::before{opacity:0}
 .brand-name{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.01em;line-height:1}
 .brand-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase;margin-top:5px}
 nav{display:flex;align-items:center;gap:34px}
@@ -97,7 +103,10 @@ nav{display:flex;align-items:center;gap:34px}
 .hero-h1 em{font-style:italic;color:var(--amber);font-weight:400}
 .hero-p{max-width:430px;font-size:16px;color:var(--paper-text);margin-bottom:44px;line-height:1.7}
 .hero-right{position:relative;overflow:hidden;background:linear-gradient(150deg,#c9bfae,#8f8474)}
-.hero-right img{transition:transform 8s var(--ease)}
+.hero-right picture{display:block;width:100%;height:100%}
+/* portrait source in a landscape-ish panel: bias the crop upward so the
+   subject's head is never clipped on short, wide viewports */
+.hero-right img{object-position:50% 18%;transform-origin:50% 18%;transition:transform 8s var(--ease)}
 .hero.loaded .hero-right img{transform:scale(1.06)}
 
 /* ---------- premise ---------- */
