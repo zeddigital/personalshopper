@@ -319,9 +319,12 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 0}
 .foot-contact svg{width:15px;height:15px;stroke:var(--muted-dark);fill:none;stroke-width:1.3;flex-shrink:0}
 .foot-bar{border-top:1px solid var(--line-dark);padding:26px 0;display:flex;flex-wrap:wrap;gap:14px 32px;justify-content:space-between;align-items:center}
 .foot-bar span{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--muted-dark);text-transform:uppercase}
-/* Space Mono draws the (c) glyph well below cap height, so it reads undersized
-   next to the uppercase beside it. Scaled up and nudged to sit on the caps. */
-.foot-bar .cr{font-size:1.45em;line-height:1;vertical-align:-.11em}
+/* Space Mono draws (c) well below cap height, so at the line's own size it
+   reads undersized. 1.24em brings its ink height to exactly the cap height
+   (measured: 72 device px against 72 at 8x), and -.067em centres the two —
+   ink centres land on the same row, so it sits optically level with the caps
+   rather than bulging above and below them. */
+.foot-bar .cr{font-size:1.24em;line-height:1;vertical-align:-.067em}
 /* build credit: same micro-label tier as its siblings, one step quieter so it
    sits behind the brand line rather than competing with it */
 .foot-credit a{color:var(--muted-dark);opacity:.75;transition:color .3s,opacity .3s}
