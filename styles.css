@@ -259,7 +259,13 @@ nav{display:flex;align-items:center;gap:34px}
 .about-text p{color:var(--paper-text);font-size:15.5px;line-height:1.8;margin-bottom:22px;max-width:460px}
 .about-text .btn{margin-top:18px;align-self:flex-start}
 .about-portrait{position:relative;overflow:hidden;background:linear-gradient(150deg,#2b2822,#4a4438)}
-.about-portrait img{transition:transform 8s var(--ease)}
+/* absolutely positioned for the same reason as the home hero: a percentage
+   height against a content-sized grid row resolves to auto, and this source
+   is 1672px tall — it would stretch the row badly */
+.about-portrait picture{position:absolute;inset:0;display:block}
+/* 9:16 source in a near-square panel discards ~40% vertically; anchored near
+   the top so the crop takes the floor rather than her head */
+.about-portrait img{object-position:50% 10%;transform-origin:50% 10%;transition:transform 8s var(--ease)}
 .about-split.loaded .about-portrait img{transform:scale(1.05)}
 .philosophy{text-align:center;padding:140px 0}
 .philosophy .label{display:block;margin-bottom:40px}
