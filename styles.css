@@ -105,11 +105,13 @@ nav{display:flex;align-items:center;gap:34px}
    content-sized grid row resolves to auto, letting the image's natural height
    stretch the hero past the fold */
 .hero-right picture{position:absolute;inset:0;display:block}
-/* portrait source in a panel that is now a header shorter, so cover discards
-   more vertically: anchored at 8% to keep ~31px clear above her hair at the
-   worst viewport (1366x768) while the bottom edge stays below the knee */
-.hero-right img{object-position:50% 8%;transform-origin:50% 8%;transition:transform 8s var(--ease)}
-.hero.loaded .hero-right img{transform:scale(1.06)}
+/* 1:1 source against panels of 0.870-1.007, so cover crops the sides and the
+   full standing figure holds. Vertical slack is only 5.4% of the frame (27px
+   above her hair, 41px below the boots), so the anchor sits at 40% to split
+   the crop in proportion to those margins, and the zoom is 1.03 — at the old
+   1.06 the animation alone wanted 6.7% and clipped her. */
+.hero-right img{object-position:50% 40%;transform-origin:50% 40%;transition:transform 8s var(--ease)}
+.hero.loaded .hero-right img{transform:scale(1.03)}
 
 /* ---------- premise ---------- */
 .premise{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
@@ -398,7 +400,11 @@ textarea.cx-input{min-height:98px;resize:vertical;line-height:1.6}
   .hero{grid-template-columns:1fr}
   .hero-left{padding:120px 30px 50px;order:2}
   .hero-vert{display:none}
-  .hero-right{min-height:70vh;order:1}
+  /* never let the stacked panel go wider than the square source: at a flat
+     70vh a 768px tablet made it 768x717, which crops vertically and clipped
+     both her head and her boots. The 70vh still wins on phones, keeping the
+     hero tall there. */
+  .hero-right{min-height:max(70vh,100vw);order:1}
 
   .premise,.sec-head,.cta,.foot-grid,.quiz-wrap{grid-template-columns:1fr;gap:22px}
   .sec-head h2,.premise-stmt{text-align:left}
