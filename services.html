@@ -111,6 +111,12 @@
         <h2 class="display" style="font-size:clamp(32px,3.6vw,48px)">Style Goal Quiz</h2>
         <p class="quiz-intro-p">Three questions. Your perfect package, recommended.</p>
         <div id="quizSteps"></div>
+        <div class="quiz-progress" id="quizProgress">
+          <div class="quiz-track" id="quizTrack" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1">
+            <div class="quiz-fill" id="quizFill"></div>
+          </div>
+          <div class="quiz-count" id="quizCount">01 / 03</div>
+        </div>
         <div class="quiz-result" id="quizResult"></div>
       </div>
     </div>

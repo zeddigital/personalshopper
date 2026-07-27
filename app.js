@@ -102,17 +102,30 @@
     ];
     const steps = quiz.querySelector('#quizSteps');
     const result = quiz.querySelector('#quizResult');
+    const progress = quiz.querySelector('#quizProgress');
+    const track = quiz.querySelector('#quizTrack');
+    const fill = quiz.querySelector('#quizFill');
+    const count = quiz.querySelector('#quizCount');
+    const pad = n => String(n).padStart(2, '0');
     let idx = 0; const tally = { audit: 0, shopping: 0, event: 0 };
+
+    // the progress line lives outside #quizSteps so it survives each re-render
+    // and can animate between questions rather than being rebuilt at its new width
+    function setProgress(step) {
+      fill.style.width = (step / questions.length * 100) + '%';
+      count.textContent = pad(step) + ' / ' + pad(questions.length);
+      track.setAttribute('aria-valuenow', step);
+    }
 
     function render() {
       const s = questions[idx];
+      setProgress(idx + 1);
       steps.innerHTML =
         '<div class="quiz-step">' +
           '<div class="quiz-q">Question ' + (idx + 1) + ' — ' + s.q + '</div>' +
           '<div class="quiz-options">' +
             s.opts.map((o, i) => '<button class="quiz-opt" data-v="' + o.v + '">' + o.t + '</button>').join('') +
           '</div>' +
-          '<div class="quiz-progress">' + (idx + 1) + ' / ' + questions.length + '</div>' +
         '</div>';
       steps.querySelectorAll('.quiz-opt').forEach(btn => btn.addEventListener('click', () => {
         tally[btn.dataset.v]++;
@@ -124,6 +137,7 @@
       const best = Object.keys(tally).reduce((a, b) => tally[a] >= tally[b] ? a : b);
       const p = packages[best];
       steps.style.display = 'none';
+      progress.style.display = 'none';
       result.innerHTML =
         '<div class="quiz-rec-label">Your recommendation</div>' +
         '<h3 class="display quiz-rec-title">' + p.rec + '</h3>' +
@@ -139,7 +153,7 @@
     function reset() {
       idx = 0; tally.audit = tally.shopping = tally.event = 0;
       result.classList.remove('show'); result.innerHTML = '';
-      steps.style.display = 'block'; render();
+      steps.style.display = 'block'; progress.style.display = ''; render();
     }
     render();
   }
