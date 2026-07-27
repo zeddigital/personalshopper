@@ -26,8 +26,22 @@
   const toggle = document.getElementById('menuToggle');
   const menu = document.getElementById('mobileMenu');
   if (toggle && menu) {
-    toggle.addEventListener('click', () => menu.classList.toggle('open'));
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+    const setMenu = open => {
+      menu.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      // stop the page scrolling underneath the overlay
+      document.body.classList.toggle('menu-open', open);
+    };
+    setMenu(false);
+    toggle.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); toggle.focus(); }
+    });
+    // a resize past the breakpoint hides the toggle; don't strand the overlay open
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900 && menu.classList.contains('open')) setMenu(false);
+    });
   }
 
   // graceful image fallback so nothing renders empty

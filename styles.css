@@ -80,8 +80,16 @@ nav{display:flex;align-items:center;gap:34px}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
 .nav-links a.active{color:var(--amber)}
 .nav-header .btn{padding:13px 24px}
-.menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
-.menu-toggle span{width:24px;height:1.5px;background:var(--ink);transition:.3s}
+/* 44x44 so it is actually tappable — the bars stay 24px, the box around them
+   does the work. Sits above the open menu so it doubles as the close control. */
+.menu-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;padding:0;margin-right:-10px;background:none;border:none;cursor:pointer;position:relative;z-index:101}
+.menu-toggle span{width:24px;height:1.5px;background:var(--ink);transition:transform .35s var(--ease),opacity .2s var(--ease)}
+/* bar centres are 6.5px apart (1.5px bar + 5px gap), so that is the travel
+   needed to collapse the outer two onto the middle and form the cross */
+.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+body.menu-open{overflow:hidden}
 
 .mobile-menu{position:fixed;inset:0;background:var(--paper);z-index:99;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
 .mobile-menu.open{opacity:1;pointer-events:auto}
@@ -161,6 +169,10 @@ nav{display:flex;align-items:center;gap:34px}
 
 /* ---------- transformations ---------- */
 .trans-head{margin-bottom:60px}
+/* two columns rather than the three .sec-head assumes — this head has no
+   trailing link. Was an inline style, which outranked the mobile override
+   below and left a 300px column in a 338px viewport, overflowing the page. */
+.trans-head .sec-head{grid-template-columns:300px 1fr;margin-bottom:0}
 .trans-head .premise-p{margin-top:20px}
 .gallery{columns:3;column-gap:32px}
 .gal-item{break-inside:avoid;margin-bottom:32px;position:relative;overflow:hidden;cursor:pointer;background:linear-gradient(150deg,#cdc4b4,#a99e8c)}
@@ -417,6 +429,7 @@ textarea.cx-input{min-height:98px;resize:vertical;line-height:1.6}
   .hero-right{min-height:max(70vh,100vw);order:1}
 
   .premise,.sec-head,.cta,.foot-grid,.quiz-wrap{grid-template-columns:1fr;gap:22px}
+  .trans-head .sec-head{grid-template-columns:1fr}
   .sec-head h2,.premise-stmt{text-align:left}
   .sec-head .link-arrow{justify-self:start}
   .services-grid,.journal-grid,.advantage{grid-template-columns:1fr}
