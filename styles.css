@@ -252,16 +252,10 @@ nav{display:flex;align-items:center;gap:34px}
 /* ==========================================================================
    PAGE: About
    ========================================================================== */
-/* the portrait column is deliberately narrow: the source is 9:16, so the
-   closer this panel gets to that ratio the less of the figure cover discards.
-   At an even split it cropped her at the knee. */
-.about-split{display:grid;grid-template-columns:1fr min(510px,44vw);min-height:100vh;padding-top:var(--header-h)}
+.about-split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;padding-top:var(--header-h)}
 .about-text{display:flex;flex-direction:column;justify-content:center;padding:150px 64px 90px}
 .about-text .label{margin-bottom:26px}
-/* capped so the heading keeps wrapping into a block with the 460px paragraphs
-   below it — the text column is now much wider than the copy needs, and left
-   uncapped the h1 runs out to a single line detached from the rest */
-.about-text h1{font-size:clamp(38px,4.6vw,60px);margin-bottom:34px;max-width:740px}
+.about-text h1{font-size:clamp(38px,4.6vw,60px);margin-bottom:34px}
 .about-text p{color:var(--paper-text);font-size:15.5px;line-height:1.8;margin-bottom:22px;max-width:460px}
 .about-text .btn{margin-top:18px;align-self:flex-start}
 .about-portrait{position:relative;overflow:hidden;background:linear-gradient(150deg,#2b2822,#4a4438)}
@@ -271,13 +265,11 @@ nav{display:flex;align-items:center;gap:34px}
 .about-portrait picture{position:absolute;inset:0;display:block}
 /* 9:16 source in a near-square panel discards ~40% vertically; anchored near
    the top so the crop takes the floor rather than her head */
-/* anchored top and right-of-centre: top because the panel is now narrow enough
-   that the crop is small and taking it off the ceiling keeps her heels in; right
-   because she sits right of centre, so any horizontal crop should come off the
-   plant side. The zoom is 1.03 rather than 1.05 — at 1.05 it reclaims 5% of the
-   panel height and clips the toe of her shoe at the end of the animation. */
-.about-portrait img{object-position:62% 0;transform-origin:62% 0;transition:transform 8s var(--ease)}
-.about-split.loaded .about-portrait img{transform:scale(1.03)}
+/* interim anchor for the current 9:16 source, which is far taller than this
+   panel — centre would cut her head. Move to 50% 50% once a correctly
+   proportioned image replaces it. */
+.about-portrait img{object-position:50% 10%;transform-origin:50% 10%;transition:transform 8s var(--ease)}
+.about-split.loaded .about-portrait img{transform:scale(1.05)}
 .philosophy{text-align:center;padding:140px 0}
 .philosophy .label{display:block;margin-bottom:40px}
 .philosophy blockquote{font-family:var(--serif);font-size:clamp(28px,3.6vw,46px);font-weight:500;font-style:italic;line-height:1.3;color:var(--paper);max-width:1000px;margin:0 auto 34px}
@@ -428,10 +420,7 @@ textarea.cx-input{min-height:98px;resize:vertical;line-height:1.6}
 
   .about-split{grid-template-columns:1fr}
   .about-text{padding:120px 30px 60px;order:2}
-  /* 178vw is the source's own 940:1672 ratio, so on a phone the panel matches
-     the image and the whole figure survives; the 85vh cap stops it running the
-     full screen on a wide tablet, where the ratio can't be honoured anyway */
-  .about-portrait{min-height:min(85vh,178vw);order:1}
+  .about-portrait{min-height:70vh;order:1}
   .philosophy{padding:90px 0}
 
   .contact-inputs{grid-template-columns:1fr}
